@@ -1,0 +1,19 @@
+# Ignore Python/ML junk
+__pycache__/
+*.pyc
+*.pkl
+*.csv
+*.log
+
+# Ignore environments
+venv/
+.env
+
+# Ignore notebooks and checkpoints
+*.ipynb
+*.ipynb_checkpoints
+
+# IDE/config stuff
+.DS_Store
+.idea/
+*.sqlite3
