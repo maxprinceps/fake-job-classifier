@@ -6,6 +6,10 @@ from sklearn.metrics import classification_report, accuracy_score
 from imblearn.over_sampling import SMOTE
 from collections import Counter
 import joblib
+import matplotlib.pyplot as plt
+
+import shap
+import numpy as np
 
 # Step 1: Load dataset
 df = pd.read_csv('fake_job_postings.csv')
@@ -60,3 +64,22 @@ print("\n✅ Classification Report:\n", classification_report(y_test, y_pred))
 joblib.dump(best_rf, "rf_model.pkl")
 joblib.dump(vectorizer, "vectorizer.pkl")
 print("\n✅ Model and vectorizer saved.")
+
+# Step 11: Explain predictions with SHAP
+
+
+# Use a sample of training data to initialize SHAP explainer
+explainer = shap.Explainer(best_rf, X_train_resampled[:100])  # keep small for performance
+shap_values = explainer(X_test[:10])  # explain a few test examples
+
+# Show summary plot
+shap.summary_plot(shap_values, feature_names=vectorizer.get_feature_names_out(), max_display=20)
+
+plt.show()
+
+# Optional: Explain individual prediction
+print("\n💡 Explaining a single prediction (index 0):")
+shap.plots.text(shap_values[0])
+
+
+
